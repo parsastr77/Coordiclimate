@@ -9,22 +9,56 @@ import json
 app = tk.Tk()
 
 def open_getlatlong():
-    page_get_city = tk.Toplevel()
+    app.withdraw()
+    page_get_city = tk.Toplevel(app)
+
+    def close_window():
+        page_get_city.destroy()
+        app.deiconify()
+
+    page_get_city.protocol("WM_DELETE_WINDOW", close_window)
 
     page_get_city.minsize(500,600)
     page_get_city.resizable(False,False)
     page_get_city.config(bg="black")
     page_get_city.title("get lat/long")
 
+    labtitude = tk.Label(
+    master=page_get_city,
+    text="latitude:",
+    font=["Bebas Neue", 16],
+    bg="black",
+    fg="white"
+    )
+    labtitude.place(x=10,y=240)
+
+    longlab = tk.Label(
+    master=page_get_city,
+    text="longtitude:",
+    font=["Bebas Neue", 16],
+    bg="black",
+    fg="white"
+    )
+    longlab.place(x=10,y=290)
+
     lab_result_lat_long = tk.Label(
     master=page_get_city,
     text="",
     font=["Bebas Neue", 24],
     bg="black",
-    fg="white"
-    )
-    lab_result_lat_long.place(x=140,y=90)
+    fg="white",
+    width=35,
+    wraplength=440,
+    justify="center",
+    anchor="center"
+)
 
+    lab_result_lat_long.place(
+        x=20,
+        y=90,
+        width=460
+    )
+    
     lab_weatherapist2 = tk.Label(
     master=page_get_city,
     text="city finder",
@@ -70,6 +104,9 @@ def open_getlatlong():
     )
     btn_get_lat_long.place(x=160,y=380)
 
+    page_get_city.bind('<Return>', open_getlatlong)
+
+ 
 
 def get_temp_city(event=None):
     city = ent.get().strip()
@@ -122,8 +159,6 @@ def get_lat_long(entlat, entlong, resulabel):
     if not entlat.get().strip() or not entlong.get().strip():
         messagebox.showerror("Error", "Please enter both coordinates!")
         return
-    latit = float(entlat.get().strip())
-    longit = float(entlong.get().strip())
     try:
         latit = float(entlat.get().strip())
         longit = float(entlong.get().strip())
@@ -156,8 +191,7 @@ def get_lat_long(entlat, entlong, resulabel):
     except Exception as f:
         messagebox.showerror("Error", f"failed to connect to the server: {f}")
 
-
-
+app.bind('<Return>', get_temp_city)
 
 app.minsize(500,600)
 app.resizable(False,False)
