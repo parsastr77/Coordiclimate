@@ -8,6 +8,64 @@ import json
 
 app = tk.Tk()
 
+def open_temp():
+    app.withdraw()
+    page_temp = tk.Toplevel()
+
+    def close_window():
+        page_temp.destroy()
+        app.deiconify()
+
+    page_temp.protocol("WM_DELETE_WINDOW", close_window)
+
+    page_temp.minsize(500,600)
+    page_temp.resizable(False,False)
+    page_temp.config(bg="black")
+    page_temp.title("get temperature")
+
+    ent = tk.Entry(
+    master=page_temp,
+    bg="#9929EA",
+    fg="#FAEB92",
+    font=["Bebas Neue", 21],
+    width=30,
+    border=4
+    )
+    ent.place(x=80,y=250)
+
+    btn = tk.Button(
+    master=page_temp,
+    text="Enter city",
+    bg="#CC66DA",
+    fg="#FAEB92",
+    font=["Bebas Neue", 16],
+    width=20,
+    height=1,
+    command=lambda: get_temp_city(
+        ent,
+        lab,
+        )
+    )
+    btn.place(x=160,y=330)
+
+    lab = tk.Label(
+    master=page_temp,
+    text="",
+    font=["Bebas Neue", 24],
+    bg="black",
+    fg="white"
+    )
+    lab.place(x=140,y=90)
+
+    lab_weatherapist3 = tk.Label(
+    master=page_temp,
+    text="get temperature",
+    font=["Bebas Neue", 35],
+    bg="black",
+    fg="#FAEB92"
+    )
+    lab_weatherapist3.place(x=110,y=9)
+
 def open_getlatlong():
     app.withdraw()
     page_get_city = tk.Toplevel(app)
@@ -104,12 +162,8 @@ def open_getlatlong():
     )
     btn_get_lat_long.place(x=160,y=380)
 
-    page_get_city.bind('<Return>', open_getlatlong)
-
- 
-
-def get_temp_city(event=None):
-    city = ent.get().strip()
+def get_temp_city(entr, labt, event=None):
+    city = entr.get().strip()
     if not city:
         messagebox.showerror("Error", "Please enter a city or country! ")
         return
@@ -140,10 +194,7 @@ def get_temp_city(event=None):
             data2 = json.loads(data2)
             current = data2["current"]
 
-        lab3.config(
-            text=f"last city entered: {city}"
-        )
-        lab.config(
+        labt.config(
             text=f"temprature: {current['temperature_2m']} °C\nwind speed: {current['wind_speed_10m']}"
         )
 
@@ -191,82 +242,42 @@ def get_lat_long(entlat, entlong, resulabel):
     except Exception as f:
         messagebox.showerror("Error", f"failed to connect to the server: {f}")
 
-app.bind('<Return>', get_temp_city)
-
 app.minsize(500,600)
 app.resizable(False,False)
 app.config(bg="black")
-app.title("Open Weather")
+app.title("Weatherapist")
 
-ent = tk.Entry(
-    master=app,
-    bg="#9929EA",
-    fg="#FAEB92",
-    font=["Bebas Neue", 21],
-    width=30,
-    border=4
-)
-ent.place(x=80,y=420)
-
-btn = tk.Button(
-    master=app,
-    text="Enter city",
-    bg="#CC66DA",
-    fg="#FAEB92",
-    font=["Bebas Neue", 16],
-    width=20,
-    height=1,
-    command=get_temp_city
-    )
-btn.place(x=160,y=520)
-
-btn2 = tk.Button(
+cityfinderbtn = tk.Button(
     master=app,
     text="city finder",
     bg="#CC66DA",
     fg="#FAEB92",
-    font=["Bebas Neue", 16],
+    font=["Bebas Neue", 25],
     width=20,
     height=1,
     command=open_getlatlong
     )
-btn2.place(x=160,y=200)
+cityfinderbtn.place(x=115,y=200)
 
-
-lab = tk.Label(
+gettempbtn = tk.Button(
     master=app,
-    text="",
-    font=["Bebas Neue", 24],
-    bg="black",
-    fg="white"
-)
-lab.place(x=140,y=90)
+    text="get temperature",
+    bg="#CC66DA",
+    fg="#FAEB92",
+    font=["Bebas Neue", 25],
+    width=20,
+    height=1,
+    command=open_temp
+    )
+gettempbtn.place(x=115,y=300)
 
 lab_weatherapist1 = tk.Label(
     master=app,
     text="weatherapist",
-    font=["Bebas Neue", 35],
+    font=["Bebas Neue", 50],
     bg="black",
     fg="#FAEB92"
 )
-lab_weatherapist1.place(x=136,y=9)
-
-lab3 = tk.Label(
-    master=app,
-    text=f"last city entered:",
-    font=["Bebas Neue", 17],
-    bg="black",
-    fg="#73027D"
-    )   
-lab3.place(x=80,y=470)
-
-lab4 = tk.Label(
-    text="",
-    font=["Bebas Neue", 24],
-    bg="black",
-    fg="white"
-)
-# lab.place(x=140,y=90)
-
+lab_weatherapist1.place(x=95,y=9)
 
 app.mainloop()
