@@ -1,4 +1,15 @@
-# weatherapist app
+"""
+🌍 CoordiClimate
+This app is a handy tool to check the current temperature of cities and countries 
+worldwide, as well as locate them effortlessly using latitude and longitude.
+If you like this project or find it useful, we would be thrilled if you could follow our GitHub channel! ⭐
+
+Current Version: v2.0-beta
+
+GitHub Channel: https://github.com/parsastr77
+
+THANKS FOR USING! 🚀
+"""
 
 import tkinter as tk
 from tkinter import messagebox
@@ -245,7 +256,7 @@ def get_lat_long(entlat, entlong, resulabel):
 app.minsize(500,600)
 app.resizable(False,False)
 app.config(bg="black")
-app.title("Weatherapist")
+app.title("CoordiClimate")
 
 cityfinderbtn = tk.Button(
     master=app,
@@ -273,11 +284,11 @@ gettempbtn.place(x=115,y=300)
 
 lab_weatherapist1 = tk.Label(
     master=app,
-    text="weatherapist",
+    text="coordiclimate",
     font=["Bebas Neue", 50],
     bg="black",
     fg="#FAEB92"
 )
-lab_weatherapist1.place(x=95,y=9)
+lab_weatherapist1.place(x=90,y=9)
 
 app.mainloop()
