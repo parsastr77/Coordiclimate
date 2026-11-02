@@ -1,10 +1,16 @@
+#CoordiClimate
+
 """
 🌍 CoordiClimate
 This app is a handy tool to check the current temperature of cities and countries 
 worldwide, as well as locate them effortlessly using latitude and longitude.
 If you like this project or find it useful, we would be thrilled if you could follow our GitHub channel! ⭐
 
-Current Version: v2.0-beta
+Tip✨ ==> We recommend you to have the "fonts" folder next to the main project because the application
+needs the font "Bebas Neue" to run CORRECTLY! but if you have already installed the font, you dont need to
+do that.
+
+current Version: v2.0-beta
 
 GitHub Channel: https://github.com/parsastr77
 
@@ -16,12 +22,53 @@ from tkinter import messagebox
 from urllib.request import urlopen, Request
 from urllib.parse import quote
 import json
+import ctypes
+import os
+
+font_path = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "fonts",
+    "BebasNeue-Regular.ttf"
+)
+
+FR_PRIVATE = 0x10
+gdi32 = ctypes.windll.gdi32
+
+font_loaded = False
+
+if os.path.isfile(font_path):
+    result = gdi32.AddFontResourceExW(
+        font_path,
+        FR_PRIVATE,
+        0
+    )
+
+    font_loaded = result > 0
+
+try:
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+except Exception:
+    pass
 
 app = tk.Tk()
 
+def close_app():
+    if font_loaded:
+        gdi32.RemoveFontResourceExW(
+            font_path,
+            FR_PRIVATE,
+            0
+        )
+
+    app.destroy()
+
+app.protocol("WM_DELETE_WINDOW", close_app)
+
+MAIN_FONT = "Bebas Neue"
+
 def open_temp():
     app.withdraw()
-    page_temp = tk.Toplevel()
+    page_temp = tk.Toplevel(app)
 
     def close_window():
         page_temp.destroy()
@@ -29,7 +76,7 @@ def open_temp():
 
     page_temp.protocol("WM_DELETE_WINDOW", close_window)
 
-    page_temp.minsize(500,600)
+    page_temp.geometry("500x600")
     page_temp.resizable(False,False)
     page_temp.config(bg="black")
     page_temp.title("get temperature")
@@ -38,18 +85,22 @@ def open_temp():
     master=page_temp,
     bg="#9929EA",
     fg="#FAEB92",
-    font=["Bebas Neue", 21],
+    font=(MAIN_FONT, 21),
     width=30,
     border=4
     )
-    ent.place(x=80,y=250)
+    ent.place(
+    relx=0.5,
+    y=350,
+    anchor="n"
+    )
 
     btn = tk.Button(
     master=page_temp,
     text="Enter city",
     bg="#CC66DA",
     fg="#FAEB92",
-    font=["Bebas Neue", 16],
+    font=(MAIN_FONT, 16),
     width=20,
     height=1,
     command=lambda: get_temp_city(
@@ -57,25 +108,37 @@ def open_temp():
         lab,
         )
     )
-    btn.place(x=160,y=330)
+    btn.place(
+    relx=0.5,
+    y=430,
+    anchor="n"
+    )
 
     lab = tk.Label(
     master=page_temp,
     text="",
-    font=["Bebas Neue", 24],
+    font=(MAIN_FONT, 24),
     bg="black",
     fg="white"
     )
-    lab.place(x=140,y=90)
+    lab.place(
+    relx=0.5,
+    y=90,
+    anchor="n"
+    )
 
     lab_weatherapist3 = tk.Label(
     master=page_temp,
     text="get temperature",
-    font=["Bebas Neue", 35],
+    font=(MAIN_FONT, 35),
     bg="black",
     fg="#FAEB92"
     )
-    lab_weatherapist3.place(x=110,y=9)
+    lab_weatherapist3.place(
+    relx=0.5,
+    y=9,
+    anchor="n"
+    )
 
 def open_getlatlong():
     app.withdraw()
@@ -87,33 +150,42 @@ def open_getlatlong():
 
     page_get_city.protocol("WM_DELETE_WINDOW", close_window)
 
-    page_get_city.minsize(500,600)
+    page_get_city.geometry("500x600")
     page_get_city.resizable(False,False)
     page_get_city.config(bg="black")
-    page_get_city.title("get lat/long")
+    page_get_city.title("City Finder")
 
     labtitude = tk.Label(
     master=page_get_city,
     text="latitude:",
-    font=["Bebas Neue", 16],
+    font=(MAIN_FONT, 16),
     bg="black",
     fg="white"
     )
-    labtitude.place(x=10,y=240)
+    labtitude.place(
+    relx=0.13,
+    y=220,
+    anchor="n"
+    )
 
     longlab = tk.Label(
     master=page_get_city,
     text="longtitude:",
-    font=["Bebas Neue", 16],
+    font=(MAIN_FONT, 16),
     bg="black",
     fg="white"
     )
-    longlab.place(x=10,y=290)
+    longlab.place(
+    relx=0.13,
+    y=270,
+    anchor="n"
+    )
+
 
     lab_result_lat_long = tk.Label(
     master=page_get_city,
     text="",
-    font=["Bebas Neue", 24],
+    font=(MAIN_FONT, 24),
     bg="black",
     fg="white",
     width=35,
@@ -131,38 +203,50 @@ def open_getlatlong():
     lab_weatherapist2 = tk.Label(
     master=page_get_city,
     text="city finder",
-    font=["Bebas Neue", 35],
+    font=(MAIN_FONT, 35),
     bg="black",
     fg="#FAEB92"
     )
-    lab_weatherapist2.place(x=150,y=9)
+    lab_weatherapist2.place(
+    relx=0.5,
+    y=9,
+    anchor="n"
+    )
 
     ent_get_lat = tk.Entry(
     master=page_get_city,
     bg="#9929EA",
     fg="#FAEB92",
-    font=["Bebas Neue", 17],
+    font=(MAIN_FONT, 17),
     width=30,
     border=4
     )
-    ent_get_lat.place(x=110,y=240)
+    ent_get_lat.place(
+    relx=0.6,
+    y=240,
+    anchor="center"
+    )
 
     ent_get_long = tk.Entry(
         master=page_get_city,
         bg="#9929EA",
         fg="#FAEB92",
-        font=["Bebas Neue", 17],
+        font=(MAIN_FONT, 17),
         width=30,
         border=4
     )
-    ent_get_long.place(x=110,y=290)
+    ent_get_long.place(
+    relx=0.6,
+    y=290,
+    anchor="center"
+    )
 
     btn_get_lat_long = tk.Button(
     master=page_get_city,
     text="Enter lat/long",
     bg="#CC66DA",
     fg="#FAEB92",
-    font=["Bebas Neue", 16],
+    font=(MAIN_FONT, 16),
     width=20,
     height=1,
     command=lambda: get_lat_long(
@@ -171,7 +255,11 @@ def open_getlatlong():
         lab_result_lat_long
         )
     )
-    btn_get_lat_long.place(x=160,y=380)
+    btn_get_lat_long.place(
+    relx=0.5,
+    y=380,
+    anchor="center"
+    )
 
 def get_temp_city(entr, labt, event=None):
     city = entr.get().strip()
@@ -184,7 +272,7 @@ def get_temp_city(entr, labt, event=None):
         url1 = f"https://geocoding-api.open-meteo.com/v1/search?name={encoded_city}&count=1&language=en"
         req1 = Request(
             url1,
-            headers={"User-Agent": "Weatherapist/1.0"}
+            headers={"User-Agent": "CoordiClimate/2.0"}
         )
         with urlopen(req1, timeout=10) as response:
             data = response.read().decode("utf-8")
@@ -198,7 +286,7 @@ def get_temp_city(entr, labt, event=None):
         url2 = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
         req2 = Request(
             url2,
-            headers={"User-Agent": "Weatherapist/1.0"}
+            headers={"User-Agent": "CoordiClimate/2.0"}
         )
         with urlopen(req2, timeout=10) as response2:
             data2 = response2.read().decode("utf-8")
@@ -206,12 +294,15 @@ def get_temp_city(entr, labt, event=None):
             current = data2["current"]
 
         labt.config(
-            text=f"temprature: {current['temperature_2m']} °C\nwind speed: {current['wind_speed_10m']}"
+            text=f"Temperature: {current['temperature_2m']} °C\n"
+            f"Wind speed: {current['wind_speed_10m']} km/h\n"
+            f"Latitude: {data2['latitude']}\n"
+            f"Longitude: {data2['longitude']}"
         )
 
     except ValueError as e:
         if str(e) == "CityNotFound":
-            messagebox.showerror("Error", f"{city} could not be found!")
+            messagebox.showerror("Error", f"{city} could not be found or not exists!")
         else:
             messagebox.showerror("Error", f"an error occured while sending request to thr server: {e}")
     except Exception as e:
@@ -225,13 +316,13 @@ def get_lat_long(entlat, entlong, resulabel):
         latit = float(entlat.get().strip())
         longit = float(entlong.get().strip())
         if not -90 <= latit <= 90:
-            raise ValueError("Invalid latitude!")
+            messagebox.showerror("Error", "Invalid latitude!")
         if not -180 <= longit <= 180:
-            raise ValueError("Invalid longitude!")
+            messagebox.showerror("Error", "Invalid longitude!")
         url1 = f"https://nominatim.openstreetmap.org/reverse?lat={latit}&lon={longit}&format=jsonv2&addressdetails=1&accept-language=en"
         req = Request(
                 url1,
-                headers={"User-Agent": "Weatherapist/1.0"}
+                headers={"User-Agent": "CoordiClimate/2.0"}
             )
         with urlopen(req, timeout=10) as response:
             data3 = response.read().decode("utf-8")
@@ -247,13 +338,13 @@ def get_lat_long(entlat, entlong, resulabel):
 
     except ValueError as f:
         if str(f) == "CityNotFound":
-            messagebox.showerror("Error", "city could not be found!")
+            messagebox.showerror("Error", "city could not be found or entered co-ordinates are not correct!")
         else:
             messagebox.showerror("Error", f"an error occured while sending request to thr server: {f}")
     except Exception as f:
         messagebox.showerror("Error", f"failed to connect to the server: {f}")
 
-app.minsize(500,600)
+app.geometry("500x600")
 app.resizable(False,False)
 app.config(bg="black")
 app.title("CoordiClimate")
@@ -263,32 +354,44 @@ cityfinderbtn = tk.Button(
     text="city finder",
     bg="#CC66DA",
     fg="#FAEB92",
-    font=["Bebas Neue", 25],
+    font=(MAIN_FONT, 25),
     width=20,
     height=1,
     command=open_getlatlong
     )
-cityfinderbtn.place(x=115,y=200)
+cityfinderbtn.place(
+    relx=0.5,
+    y=300,
+    anchor="center"
+)
 
 gettempbtn = tk.Button(
     master=app,
     text="get temperature",
     bg="#CC66DA",
     fg="#FAEB92",
-    font=["Bebas Neue", 25],
+    font=(MAIN_FONT, 25),
     width=20,
     height=1,
     command=open_temp
     )
-gettempbtn.place(x=115,y=300)
+gettempbtn.place(
+    relx=0.5,
+    y=400,
+    anchor="center"
+)
 
 lab_weatherapist1 = tk.Label(
     master=app,
-    text="coordiclimate",
-    font=["Bebas Neue", 50],
+    text="co-ordiclimate".lower(),
+    font=(MAIN_FONT, 50),
     bg="black",
     fg="#FAEB92"
 )
-lab_weatherapist1.place(x=90,y=9)
+lab_weatherapist1.place(
+    relx=0.5,
+    y=9,
+    anchor="n"
+)
 
 app.mainloop()
