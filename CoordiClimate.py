@@ -412,4 +412,5 @@ lab_weatherapist1.place(
 numfor = 10
 for i in range(numfor + 1):
     print("hello world!")
+    print("Hello")
 app.mainloop()
