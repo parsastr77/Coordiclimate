@@ -1,16 +1,17 @@
-#CoordiClimate
+#CoordiClimate v2.1.1
 
 """
 🌍 CoordiClimate
 This app is a handy tool to check the current temperature of cities and countries 
-worldwide, as well as locate them effortlessly using latitude and longitude.
+worldwide, as well as locate them effortlessly using latitude and longitude.🌍
 If you like this project or find it useful, we would be thrilled if you could follow our GitHub channel!⭐
 
 Tip✨ ==> We recommend you to have the "fonts" folder next to the main project because the application
 needs the font "Bebas Neue" to run CORRECTLY! but if you have already installed the font, you dont need to
 do that🎉
 
-What's New in v2.5.5:
+What's New in v2.1.1:
+- Completely changed GUI to Blue theme✅
 - Added Co-ordinate response mode in the Cities Status response✅
 - Improved error handling and input validation✅
 - Optimized widget positioning and layout across application pages✅
@@ -18,7 +19,7 @@ What's New in v2.5.5:
 - Enhanced API response handling✅
 - Minor code improvements and bug fixes✅
 
-Current Version: v2.5.5
+Current Version: v2.1.1
 
 GitHub Channel: https://github.com/parsastr77
 
@@ -408,4 +409,7 @@ lab_weatherapist1.place(
     anchor="n"
 )
 
+numfor = 10
+for i in range(numfor + 1):
+    print("hello world!")
 app.mainloop()
