@@ -26,10 +26,12 @@ GitHub Channel: https://github.com/parsastr77
 THANKS FOR USING! 🚀
 """
 
-import tkinter as tk
 from tkinter import messagebox
 from urllib.request import urlopen, Request
 from urllib.parse import quote
+from operations import History
+from tkinter import ttk
+import tkinter as tk
 import json
 import ctypes
 import os
@@ -150,6 +152,36 @@ def cities_status():
     y=9,
     anchor="n"
     )
+
+    def open_history():
+        page_temp.withdraw()
+        page_H = tk.Toplevel(page_temp)
+
+        def close():
+            page_H.destroy()
+            page_temp.deiconify
+
+        page_temp.geometry("500x600")
+        page_temp.resizable(False,False)
+        page_temp.config(bg="#1B365D")
+        page_temp.title("History")
+
+        db = History()
+
+        cols = ("city", "temp", "lat", "long")
+        tree_H = ttk.Treeview(
+            master=page_H,
+            columns=cols,
+            show="headings",
+            height=12
+        )
+        tree_H.pack(
+        fill="both",
+        expand=True,
+        padx=20,
+        pady=10
+        )
+
 
 def country_finder():
     app.withdraw()
@@ -409,8 +441,4 @@ lab_weatherapist1.place(
     anchor="n"
 )
 
-numfor = 10
-for i in range(numfor + 1):
-    print("hello world!")
-    print("Hello")
 app.mainloop()
