@@ -1,4 +1,4 @@
-#CoordiClimate v2.1.1
+#CoordiClimate v2.2.0
 
 """
 🌍 CoordiClimate
@@ -10,16 +10,14 @@ Tip✨ ==> We recommend you to have the "fonts" folder next to the main project 
 needs the font "Bebas Neue" to run CORRECTLY! but if you have already installed the font, you dont need to
 do that🎉
 
-What's New in v2.1.1:
-- Completely changed GUI to Blue theme✅
-- Added Co-ordinate response mode in the Cities Status response✅
+What's New in v2.2.0:
+- Added internet check at the first✅
 - Improved error handling and input validation✅
-- Optimized widget positioning and layout across application pages✅
 - Improved coordinate validation✅
 - Enhanced API response handling✅
 - Minor code improvements and bug fixes✅
 
-Current Version: v2.1.1
+Current Version: v2.2.0
 
 GitHub Channel: https://github.com/parsastr77
 
@@ -29,12 +27,20 @@ THANKS FOR USING! 🚀
 from tkinter import messagebox
 from urllib.request import urlopen, Request
 from urllib.parse import quote
-from operations import History
+from urllib.error import URLError
 from tkinter import ttk
 import tkinter as tk
 import json
 import ctypes
 import os
+
+def check_internet():
+    try:
+        urlopen("https://google.com", timeout=5)
+        return True
+    except URLError as u:
+        messagebox.showerror("Error", "Internet is not connected!")
+        return False
 
 font_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -62,6 +68,8 @@ except Exception:
     pass
 
 app = tk.Tk()
+
+check_internet()
 
 def close_app():
     if font_loaded:
@@ -152,37 +160,7 @@ def cities_status():
     y=9,
     anchor="n"
     )
-
-    def open_history():
-        page_temp.withdraw()
-        page_H = tk.Toplevel(page_temp)
-
-        def close():
-            page_H.destroy()
-            page_temp.deiconify
-
-        page_temp.geometry("500x600")
-        page_temp.resizable(False,False)
-        page_temp.config(bg="#1B365D")
-        page_temp.title("History")
-
-        db = History()
-
-        cols = ("city", "temp", "lat", "long")
-        tree_H = ttk.Treeview(
-            master=page_H,
-            columns=cols,
-            show="headings",
-            height=12
-        )
-        tree_H.pack(
-        fill="both",
-        expand=True,
-        padx=20,
-        pady=10
-        )
-
-
+    
 def country_finder():
     app.withdraw()
     page_get_city = tk.Toplevel(app)
@@ -391,7 +369,7 @@ def get_lat_long(entlat, entlong, resulabel):
     except Exception as f:
         messagebox.showerror("Error", f"failed to connect to the server: {f}")
 
-app.geometry("500x600")
+app.geometry("600x700")
 app.resizable(False,False)
 app.config(bg="#1B365D")
 app.title("CoordiClimate")
