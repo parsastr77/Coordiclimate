@@ -11,7 +11,7 @@ def GUI(app, MAIN_FONT, country_finder, cities_status):
         font=(MAIN_FONT, 25),
         width=20,
         height=1,
-        command=country_finder
+        command=lambda: country_finder(app, MAIN_FONT)
         )
     cityfinderbtn.place(
         relx=0.5,

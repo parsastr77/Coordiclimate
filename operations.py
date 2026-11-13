@@ -5,6 +5,127 @@ from urllib.parse import quote
 from urllib.error import URLError
 import json
 
+def country_finder(app, MAIN_FONT):
+    app.withdraw()
+    page_get_city = tk.Toplevel(app)
+
+    def close_window():
+        page_get_city.destroy()
+        app.deiconify()
+
+    page_get_city.protocol("WM_DELETE_WINDOW", close_window)
+
+    page_get_city.geometry("500x600")
+    page_get_city.resizable(False,False)
+    page_get_city.config(bg="#1B365D")
+    page_get_city.title("Country Finder")
+    page_get_city.iconbitmap("Main_Icon.ico")
+
+    labtitude = tk.Label(
+    master=page_get_city,
+    text="latitude:",
+    font=(MAIN_FONT, 16),
+    bg="#1B365D",
+    fg="#60C1E5"
+    )
+    labtitude.place(
+    relx=0.13,
+    y=220,
+    anchor="n"
+    )
+
+    longlab = tk.Label(
+    master=page_get_city,
+    text="longitude:",
+    font=(MAIN_FONT, 16),
+    bg="#1B365D",
+    fg="#60C1E5"
+    )
+    longlab.place(
+    relx=0.13,
+    y=270,
+    anchor="n"
+    )
+
+    lab_result_lat_long = tk.Label(
+    master=page_get_city,
+    text="",
+    font=(MAIN_FONT, 24),
+    bg="#1B365D",
+    fg="white",
+    width=35,
+    wraplength=440,
+    justify="center",
+    anchor="center"
+    )
+    lab_result_lat_long.place(
+    x=20,
+    y=90,
+    width=460
+    )
+    
+    lab_weatherapist2 = tk.Label(
+    master=page_get_city,
+    text="city finder",
+    font=(MAIN_FONT, 35),
+    bg="#1B365D",
+    fg="#60C1E5"
+    )
+    lab_weatherapist2.place(
+    relx=0.5,
+    y=9,
+    anchor="n"
+    )
+
+    ent_get_lat = tk.Entry(
+    master=page_get_city,
+    bg="#60C1E5",
+    fg="#005A9C",
+    font=(MAIN_FONT, 17),
+    width=30,
+    border=4
+    )
+    ent_get_lat.place(
+    relx=0.6,
+    y=240,
+    anchor="center"
+    )
+
+    ent_get_long = tk.Entry(
+        master=page_get_city,
+        bg="#60C1E5",
+        fg="#005A9C",
+        font=(MAIN_FONT, 17),
+        width=30,
+        border=4
+    )
+    ent_get_long.place(
+    relx=0.6,
+    y=290,
+    anchor="center"
+    )
+
+    btn_get_lat_long = tk.Button(
+    master=page_get_city,
+    text="Enter",
+    bg="#60C1E5",
+    fg="#005A9C",
+    font=(MAIN_FONT, 16),
+    width=20,
+    height=1,
+    command=lambda: get_lat_long(
+        ent_get_lat,
+        ent_get_long,
+        lab_result_lat_long
+        )
+    )
+    btn_get_lat_long.place(
+    relx=0.5,
+    y=380,
+    anchor="center"
+    )
+
+
 def cities_status(app, MAIN_FONT):
     app.withdraw()
     page_temp = tk.Toplevel(app)
@@ -19,6 +140,7 @@ def cities_status(app, MAIN_FONT):
     page_temp.resizable(False,False)
     page_temp.config(bg="#1B365D")
     page_temp.title("cities")
+    page_temp.iconbitmap("Main_Icon.ico")
 
     ent = tk.Entry(
     master=page_temp,
