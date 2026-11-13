@@ -11,9 +11,8 @@ needs the font "Bebas Neue" to run CORRECTLY! but if you have already installed 
 do that🎉
 
 What's New in v2.5.7:
-- Added internet check at the first✅
+- Made our application modular✅
 - Improved error handling and input validation✅
-- Improved coordinate validation✅
 - Enhanced API response handling✅
 - Minor code improvements and bug fixes✅
 
@@ -77,82 +76,6 @@ app.protocol("WM_DELETE_WINDOW", close_app)
 
 MAIN_FONT = "Bebas Neue"
 
-def cities_status():
-    app.withdraw()
-    page_temp = tk.Toplevel(app)
-
-    def close_window():
-        page_temp.destroy()
-        app.deiconify()
-
-    page_temp.protocol("WM_DELETE_WINDOW", close_window)
-
-    page_temp.geometry("500x600")
-    page_temp.resizable(False,False)
-    page_temp.config(bg="#1B365D")
-    page_temp.title("cities")
-
-    ent = tk.Entry(
-    master=page_temp,
-    bg="#60C1E5",
-    fg="#005A9C",
-    font=(MAIN_FONT, 21),
-    width=30,
-    border=4
-    )
-    ent.place(
-    relx=0.5,
-    y=350,
-    anchor="n"
-    )
-
-    btn = tk.Button(
-    master=page_temp,
-    text="Enter city",
-    bg="#60C1E5",
-    fg="#005A9C",
-    font=(MAIN_FONT, 16),
-    width=20,
-    height=1,
-    command=lambda: get_temp_city(
-        ent,
-        lab,
-        )
-    )
-    btn.place(
-    relx=0.5,
-    y=430,
-    anchor="n"
-    )
-
-    lab = tk.Label(
-    master=page_temp,
-    text="",
-    font=(MAIN_FONT, 24),
-    bg="#1B365D",
-    fg="white",
-    justify="center",
-    anchor="center"
-    )
-    lab.place(
-    relx=0.5,
-    y=200,
-    anchor="center"
-    )
-
-    lab_weatherapist3 = tk.Label(
-    master=page_temp,
-    text="cities status",
-    font=(MAIN_FONT, 35),
-    bg="#1B365D",
-    fg="#60C1E5"
-    )
-    lab_weatherapist3.place(
-    relx=0.5,
-    y=9,
-    anchor="n"
-    )
-    
 def country_finder():
     app.withdraw()
     page_get_city = tk.Toplevel(app)
@@ -272,11 +195,13 @@ def country_finder():
     anchor="center"
     )
 
+# MAIN APP SETTINGS
 app.geometry("600x700")
 app.resizable(False,False)
 app.config(bg="#1B365D")
 app.title("CoordiClimate")
 
 GUI(app, MAIN_FONT, country_finder, cities_status)
+
 
 app.mainloop()

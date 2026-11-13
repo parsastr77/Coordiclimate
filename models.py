@@ -27,7 +27,7 @@ def GUI(app, MAIN_FONT, country_finder, cities_status):
         font=(MAIN_FONT, 25),
         width=20,
         height=1,
-        command=cities_status
+        command=lambda: cities_status(app, MAIN_FONT)
         )
     gettempbtn.place(
         relx=0.5,
